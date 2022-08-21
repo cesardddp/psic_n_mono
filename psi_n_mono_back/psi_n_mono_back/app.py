@@ -12,7 +12,7 @@ cache.init_app(app)
 @app.get("/")
 def index():
     # print(app.static_folder)
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(app.static_folder or 'static', 'index.html')
     
 @app.get("/api/")
 @app.get("/api/<searh_term>")

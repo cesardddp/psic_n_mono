@@ -24,6 +24,7 @@ export class Psi {
   telefoneCelular: string;
   temWhatsapp: string;
   col_posicao: string;
+  // to_search:string;
 
   constructor(psi: PsiType) {
     this.abordagemEspecialidades = psi.abordagemEspecialidades;
@@ -37,21 +38,22 @@ export class Psi {
     this.telefoneCelular = psi.telefoneCelular;
     this.temWhatsapp = psi.temWhatsapp;
     this.col_posicao = psi.col_posicao;
+    // this.to_search = this.all_as_string()
   }
 
-  all_as_string() {
-    return (
-      this.abordagemEspecialidades +
-      this.atendeConvenio +
-      this.cidadeRegiaoAtendimento +
-      this.atendeADistancia +
-      this.nome +
-      this.possibilidadeAtendimentoSocial +
-      this.pronomes +
-      this.redesSociais +
-      this.telefoneCelular +
-      this.temWhatsapp +
-      this.col_posicao
-    ).toLowerCase();
-  }
+  // all_as_string() {
+  //   return (
+  //     this.abordagemEspecialidades.split(' ').filter((palavra)=>(palavra.length>3)).join(' ') +
+  //     this.cidadeRegiaoAtendimento.split(' ').filter((palavra)=>(palavra.length>3)).join(' ') +
+  //     this.nome.split(' ').filter((palavra)=>(palavra.length>2)).join(' ')
+  //     // this.atendeConvenio +
+  //     // this.atendeADistancia +
+  //     // this.possibilidadeAtendimentoSocial +
+  //     // this.pronomes +
+  //     // this.redesSociais +
+  //     // this.telefoneCelular +
+  //     // this.temWhatsapp +
+  //     // this.col_posicao
+  //   ).toLowerCase();
+  // }
 }

@@ -6,7 +6,7 @@ from flask_caching import Cache
 cache = Cache(config={'CACHE_TYPE': 'SimpleCache',    "CACHE_DEFAULT_TIMEOUT": 1800})
 
 app = Flask(__name__)
-
+# CORS(app)
 cache.init_app(app)
 
 @app.get("/")

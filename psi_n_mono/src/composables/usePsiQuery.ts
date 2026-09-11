@@ -23,8 +23,7 @@ export function usePsiQuery() {
   const filtrosAplicados = ref({ ...filtrosAplicadosInicial });
 
   const buscarPsis = async () => {
-    //prod
-    const resposta = await fetch("/api"); // test
+    const resposta = await fetch(`${window.location.origin}/api/`);
     // const resposta = await fetch("/mock/psis.json");
 
     if (!resposta.ok) {

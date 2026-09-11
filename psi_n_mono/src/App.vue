@@ -6,13 +6,16 @@ import Card from "./components/card.vue";
 import { consolePresentation } from "./composables/console_presentation";
 import { usePsiQuery } from "./composables/usePsiQuery";
 
-consolePresentation(false);
+const showConsolePresentation = import.meta.env.VITE_CONSOLE_PRESENTATION === "true";
+
+consolePresentation(showConsolePresentation);
 
 const layout = ref<"grid" | "list">("grid");
 const layoutOptions = [
   { value: "grid", label: "Cards", icon: "bi-grid-3x3-gap" },
   { value: "list", label: "Tabela", icon: "bi-table" },
 ] as const;
+const rowsPerPageOptions = [1, 5, 25, 50, 90];
 
 const {
   busca_,
@@ -110,9 +113,12 @@ const {
       <DataView
         :value="lista_de_psis"
         :layout="layout"
-        :rows="6"
+        :rows="10"
+        :rows-per-page-options="rowsPerPageOptions"
         :paginator="true"
         :paginator-position="'bottom'"
+        paginator-template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
+        current-page-report-template="Mostrando {first} a {last} de {totalRecords} profissionais"
         class="psi-dataview"
       >
         <template #grid="slotProps">
@@ -163,9 +169,17 @@ const {
   </div>
 
   <footer class="source-footer">
-    Lista original mantida por
-    <a href="https://linktr.ee/artistadesconhecida">artistadesconhecida</a> em
-    <cite><a href="https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQBCl7flmc6Q4-JI6L4RhcdQZquIh-qlKr8oGF_YDKELDBlOqve3vyv2fqGBeOQVhuVBGYu1ijAUMha/pubhtml?gid=453695488&single=true" target="_blank">docs.google</a></cite>.
+    <p>
+      Lista original mantida por
+      <a href="https://linktr.ee/artistadesconhecida">artistadesconhecida</a>
+      em
+      <cite><a href="https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQBCl7flmc6Q4-JI6L4RhcdQZquIh-qlKr8oGF_YDKELDBlOqve3vyv2fqGBeOQVhuVBGYu1ijAUMha/pubhtml?gid=453695488&single=true" target="_blank">docs.google</a></cite>.
+    </p>
+    <p>
+      Mantido por
+      <a href="mailto:cesardddp@hotmail.com">cesardddp</a> como um projeto
+      pessoal de utilidade pública.
+    </p>
   </footer>
 </template>
 
@@ -186,6 +200,10 @@ const {
   opacity: 0.6;
   text-align: center;
   padding: 0 16px 24px;
+}
+
+.source-footer p + p {
+  margin-top: 4px;
 }
 
 .page-heading h1 {

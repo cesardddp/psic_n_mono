@@ -34,7 +34,7 @@ def _parse_rows(csv_text):
 
 def _download_csv():
     def fetcher():
-        response = httpx.get(CSV_URL, timeout=30)
+        response = httpx.get(CSV_URL, timeout=30, follow_redirects=True)
         response.raise_for_status()
         return response.text
 

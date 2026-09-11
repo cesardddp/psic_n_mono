@@ -1,7 +1,7 @@
 import csv
 import io
 
-import requests
+import httpx
 
 from .cache_store import get_or_update_csv
 
@@ -34,7 +34,7 @@ def _parse_rows(csv_text):
 
 def _download_csv():
     def fetcher():
-        response = requests.get(CSV_URL, timeout=30)
+        response = httpx.get(CSV_URL, timeout=30)
         response.raise_for_status()
         return response.text
 

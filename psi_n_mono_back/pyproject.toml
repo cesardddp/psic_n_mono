@@ -16,9 +16,9 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "ipython>=8.4.0,<9",
-    "ipdb>=0.13.9,<1",
-    "pytest>=8.0.0,<9",
+    "ipdb>=0.13.13",
+    "ipython>=8.39.0",
+    "pytest>=9.1.1",
 ]
 
 [build-system]

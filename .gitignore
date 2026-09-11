@@ -28,3 +28,5 @@ dist-ssr
 psi_n_mono_back/__pycache__/
 psi_n_mono_back/psi_n_mono_back/__pycache__/
 psi_n_mono_back/wsgi.py
+psi_n_mono_back/psi_n_mono_back/static/
+psi_n_mono_back/psi_n_mono_back/cache.sqlite3

@@ -27,10 +27,10 @@ const {
 </script>
 
 <template>
-  <h1 class="fs-4 text-center">
-    Lista de Indicações - Psicólogues Não-Mono: Terapeutas, Psicólogues e
-    Psicanalistas
-  </h1>
+  <header class="page-heading">
+    <h1>Lista de Indicações - Psicólogues Não-Mono:</h1>
+    <h2>Terapeutas, Psicólogues e Psicanalistas</h2>
+  </header>
 
   <div class="app-shell">
     <section class="toolbar panel">
@@ -186,6 +186,17 @@ const {
   opacity: 0.6;
   text-align: center;
   padding: 0 16px 24px;
+}
+
+.page-heading h1 {
+  color: #1e293b;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.page-heading h2 {
+  color: #334155;
+  line-height: 1.5;
 }
 
 .panel {

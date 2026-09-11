@@ -1,12 +1,21 @@
 from flask import Flask,jsonify,send_from_directory,request
-from .anarcoped import main
+from .trata_csv import main
 from flask_caching import Cache
-# from flask_cors import CORS
+from flask_cors import CORS
 
 cache = Cache(config={'CACHE_TYPE': 'SimpleCache',    "CACHE_DEFAULT_TIMEOUT": 1800})
 
 app = Flask(__name__)
 # CORS(app)
+CORS(
+    app, 
+    # origins=[
+    #     "http://localhost:5173", 
+    #     "http://127.0.0.1:5173", 
+    #     "http://localhost:3000"
+    # ], 
+    # supports_credentials=True
+)
 cache.init_app(app)
 
 @app.get("/")

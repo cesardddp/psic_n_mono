@@ -2,8 +2,7 @@ import os
 import sqlite3
 import time
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "cache.sqlite3")
-
+DB_PATH = os.environ.get("DB_PATH", "/tmp/cache.sqlite3")
 
 def _connect():
     conn = sqlite3.connect(DB_PATH)

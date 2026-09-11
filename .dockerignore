@@ -1,0 +1,14 @@
+.git
+.gitignore
+.vscode
+
+psi_n_mono/node_modules
+psi_n_mono/dist
+psi_n_mono_back/.venv
+psi_n_mono_back/__pycache__
+psi_n_mono_back/psi_n_mono_back/__pycache__
+psi_n_mono_back/psi_n_mono_back/static
+psi_n_mono_back/tests
+
+*.pyc
+*.sqlite3

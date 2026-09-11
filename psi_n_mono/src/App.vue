@@ -3,7 +3,7 @@ import { ref } from "vue";
 import DataView from "openvue/dataview";
 import Card from "./components/card.vue";
 // import psi_list_mock from "./mock.json";
-import { consolePresentation } from "./composables/console_presentation.ts";
+import { consolePresentation } from "./composables/console_presentation";
 import { usePsiQuery } from "./composables/usePsiQuery";
 
 consolePresentation(false);

@@ -5,6 +5,8 @@ import time
 DB_PATH = os.environ.get("DB_PATH", "/tmp/cache.sqlite3")
 
 def _connect():
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute(
         """

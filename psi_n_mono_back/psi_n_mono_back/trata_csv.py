@@ -41,7 +41,7 @@ def _download_csv():
     return get_or_update_csv(CSV_URL, CACHE_TTL_SECONDS, fetcher)
 
 
-def main(search_term, filtros):
+def retrieve_filtered_data(search_term, filtros):
     rows = _parse_rows(_download_csv())
 
     if search_term is not None or filtros:

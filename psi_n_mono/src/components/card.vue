@@ -1,52 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Psi } from "../psi_model";
+import { parseRedesSociais } from "../composables/parseRedesSociais";
 
 const props = defineProps<{ psi_info: Psi }>()
 const ver_mais = ref(false)
 
-const redeSocial = computed(() => {
-  const valor = props.psi_info.redesSociais?.trim()
-  if (!valor) return null
-
-  const texto = valor.toLowerCase()
-
-  if (texto.includes('instagram')) {
-    const partes = valor.split('/').filter(Boolean)
-    const ultimo = partes.at(-1)?.split('?')[0] || valor
-    return {
-      rede: 'instagram',
-      url: valor,
-      nick: ultimo
-    }
-  }
-
-  if (texto.includes('facebook')) {
-    return {
-      rede: 'facebook',
-      url: valor,
-      nick: valor
-    }
-  }
-
-  if (valor.startsWith('http://') || valor.startsWith('https://') || valor.includes('.')) {
-    const dominio = valor.replace(/^https?:\/\//, '').replace(/\/+$/, '')
-    return {
-      rede: 'site',
-      url: valor,
-      nick: dominio
-    }
-  }
-
-  const rawNick = valor.substring(valor.indexOf('@') + 1).trim().split(/\s+/)[0].replace(/\/+$/, '')
-  const nick = rawNick.includes('/') ? rawNick.split('/').filter(Boolean).at(-1) || rawNick : rawNick
-
-  return {
-    rede: 'instagram',
-    url: `https://instagram.com/${nick}`,
-    nick
-  }
-})
+const redesSociais = computed(() => parseRedesSociais(props.psi_info.redesSociais))
 
 const exibeBadgeConvenio = computed(() => props.psi_info.atendeConvenio?.toLowerCase() === 'sim')
 const exibeBadgeOnline = computed(() => props.psi_info.atendeADistancia?.toLowerCase() === 'sim')
@@ -108,28 +68,19 @@ const resumoEspecialidades = computed(() => {
       </span>
 
       <a
-        v-if="redeSocial?.rede === 'instagram' && psi_info.redesSociais"
-        :href="redeSocial.url"
+        v-for="rede in redesSociais"
+        :key="rede.url"
+        :href="rede.url"
         target="_blank"
         rel="noopener noreferrer"
-        class="psi-card__social psi-card__social--instagram"
+        class="psi-card__social"
+        :class="`psi-card__social--${rede.rede}`"
       >
-        <i class="bi bi-instagram"></i>
-        {{ redeSocial.nick }}
+        <i :class="rede.rede === 'instagram' ? 'bi bi-instagram' : 'bi bi-globe'"></i>
+        {{ rede.nick }}
       </a>
 
-      <a
-        v-else-if="redeSocial?.rede === 'site' && psi_info.redesSociais"
-        :href="redeSocial.url"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="psi-card__social psi-card__social--site"
-      >
-        <i class="bi bi-globe"></i>
-        {{ redeSocial.nick }}
-      </a>
-
-      <span v-else class="psi-card__empty-social">
+      <span v-if="!redesSociais.length" class="psi-card__empty-social">
         {{ psi_info.redesSociais || 'Sem rede social informada' }}
       </span>
     </footer>

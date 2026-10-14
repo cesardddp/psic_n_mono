@@ -1,5 +1,5 @@
 from flask import Flask,jsonify,send_from_directory,request
-from .trata_csv import main
+from .trata_csv import retrieve_filtered_data
 from flask_caching import Cache
 from flask_cors import CORS
 
@@ -28,4 +28,4 @@ def index():
 @cache.cached(query_string=True)
 def api(searh_term=None):
     filtros = dict(request.args)
-    return jsonify(list(main(searh_term,filtros)))
+    return jsonify(list(retrieve_filtered_data(searh_term,filtros)))

@@ -23,8 +23,16 @@ export function usePsiQuery() {
   const filtrosAplicados = ref({ ...filtrosAplicadosInicial });
 
   const buscarPsis = async () => {
-    const resposta = await fetch(`${window.location.origin}/api/`);
-    // const resposta = await fetch("/mock/psis.json");
+    const mockUrl = import.meta.env.DEV
+      ? "/mock/psis.json"
+      : `${import.meta.env.BASE_URL}mock/psis.json`;
+    let resposta = await fetch(`${window.location.origin}/api/`).catch(
+      () => null,
+    );
+
+    if (!resposta?.ok) {
+      resposta = await fetch(mockUrl);
+    }
 
     if (!resposta.ok) {
       throw new Error(`Falha ao carregar profissionais (${resposta.status})`);
@@ -59,7 +67,8 @@ export function usePsiQuery() {
     const listaBase = queryPsis.data.value ?? [];
     const filtrada = listaBase.filter((psi) => {
       const texto = Object.values(psi).join(" ").toLowerCase();
-      const correspondeBusca = !filtrosAplicados.value.busca ||
+      const correspondeBusca =
+        !filtrosAplicados.value.busca ||
         texto.includes(filtrosAplicados.value.busca);
       const correspondeConvenio =
         !convenio || psi.atendeConvenio === FiltrosPsi.convenio;

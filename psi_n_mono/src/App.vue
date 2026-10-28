@@ -4,6 +4,7 @@ import { consolePresentation } from "./composables/console_presentation";
 import { usePsiQuery } from "./composables/usePsiQuery";
 import PsiSearchToolbar from "./components/PsiSearchToolbar.vue";
 import PsiDataView from "./components/PsiDataView.vue";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const showConsolePresentation =
   import.meta.env.VITE_CONSOLE_PRESENTATION === "true";
@@ -27,7 +28,7 @@ const {
 
 <template>
   <header class="page-heading">
-    <h1>Lista de Indicações - Psicólogues Não-Mono:</h1>
+    <h1>Lista de Indicações - Psicólogues Não-Mono</h1>
     <h2>Terapeutas, Psicólogues e Psicanalistas</h2>
   </header>
 
@@ -60,8 +61,9 @@ const {
           href="https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQBCl7flmc6Q4-JI6L4RhcdQZquIh-qlKr8oGF_YDKELDBlOqve3vyv2fqGBeOQVhuVBGYu1ijAUMha/pubhtml?gid=453695488&single=true"
           target="_blank"
           rel="noopener noreferrer"
-        >docs.google</a>
-      </cite>.
+          >docs.google</a
+        > </cite
+      >.
     </p>
     <p>
       Visualizador mantido por
@@ -73,7 +75,7 @@ const {
 
 <style scoped>
 :global(body) {
-  background: linear-gradient(180deg, #f5f7fb 0%, #edf3ff 100%);
+  background: whitesmoke;
   color: #1e293b;
 }
 

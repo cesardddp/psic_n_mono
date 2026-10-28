@@ -93,7 +93,11 @@ const errorMessage = computed(() =>
     <label class="page-size-control">
       <span>Itens por página</span>
       <select v-model.number="rows" aria-label="Itens por página">
-        <option v-for="option in rowsPerPageOptions" :key="option" :value="option">
+        <option
+          v-for="option in rowsPerPageOptions"
+          :key="option"
+          :value="option"
+        >
           {{ option }}
         </option>
       </select>

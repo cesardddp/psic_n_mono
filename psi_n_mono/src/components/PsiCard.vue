@@ -1,35 +1,60 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 import type { PsiType } from "../psi_model";
 import { parseRedesSociais } from "../composables/parseRedesSociais";
 
-const props = defineProps<{ professional: PsiType }>()
-const isExpanded = ref(false)
+const props = defineProps<{ professional: PsiType }>();
+const isExpanded = ref(false);
 
-const redesSociais = computed(() => parseRedesSociais(props.professional.redesSociais))
+const redesSociais = computed(() =>
+  parseRedesSociais(props.professional.redesSociais),
+);
 
-const showBadgeConvenio = computed(() => props.professional.atendeConvenio?.trim().toLowerCase() === 'sim')
-const showBadgeOnline = computed(() => props.professional.atendeADistancia?.trim().toLowerCase() === 'sim')
-const showBadgeValorSocial = computed(() => props.professional.possibilidadeAtendimentoSocial?.toLowerCase().includes('valor social'))
-const resumoEspecialidades = computed(() => props.professional.abordagemEspecialidades || '')
-const descriptionIsExpandable = computed(() => resumoEspecialidades.value.length > 150)
+const showBadgeConvenio = computed(
+  () => props.professional.atendeConvenio?.trim().toLowerCase() === "sim",
+);
+const showBadgeOnline = computed(
+  () => props.professional.atendeADistancia?.trim().toLowerCase() === "sim",
+);
+const showBadgeValorSocial = computed(() =>
+  props.professional.possibilidadeAtendimentoSocial
+    ?.toLowerCase()
+    .includes("valor social"),
+);
+const resumoEspecialidades = computed(
+  () => props.professional.abordagemEspecialidades || "",
+);
+const descriptionIsExpandable = computed(
+  () => resumoEspecialidades.value.length > 150,
+);
 const shortDescription = computed(() => {
   return descriptionIsExpandable.value
     ? `${resumoEspecialidades.value.substring(0, 150).trim()}...`
-    : resumoEspecialidades.value
-})
+    : resumoEspecialidades.value;
+});
 </script>
 
 <template>
   <article class="psi-card">
     <header class="psi-card__header">
-      <span class="psi-card__badge" :class="showBadgeConvenio ? 'is-success' : 'is-danger'">
+      <span
+        class="psi-card__badge"
+        :class="showBadgeConvenio ? 'is-success' : 'is-danger'"
+      >
         Convênio: {{ professional.atendeConvenio }}
       </span>
-      <span v-if="professional.atendeADistancia" class="psi-card__badge" :class="showBadgeOnline ? 'is-success' : 'is-danger'">
+      <span
+        v-if="professional.atendeADistancia"
+        class="psi-card__badge"
+        :class="showBadgeOnline ? 'is-success' : 'is-danger'"
+      >
         Online: {{ professional.atendeADistancia }}
       </span>
-      <span v-if="professional.possibilidadeAtendimentoSocial" class="psi-card__badge" :class="showBadgeValorSocial ? 'is-success' : 'is-neutral'">
+      <span
+        v-if="professional.possibilidadeAtendimentoSocial"
+        class="psi-card__badge"
+        :class="showBadgeValorSocial ? 'is-success' : 'is-neutral'"
+      >
         Vl. Social: {{ professional.possibilidadeAtendimentoSocial }}
       </span>
     </header>
@@ -38,9 +63,16 @@ const shortDescription = computed(() => {
       <div class="psi-card__title-row">
         <div>
           <h3 class="psi-card__title">{{ professional.nome }}</h3>
-          <div class="psi-card__meta" v-if="professional.pronomes || professional.cidadeRegiaoAtendimento">
-            <span v-if="professional.pronomes">{{ professional.pronomes }}</span>
-            <span v-if="professional.cidadeRegiaoAtendimento">{{ professional.cidadeRegiaoAtendimento }}</span>
+          <div
+            class="psi-card__meta"
+            v-if="professional.pronomes || professional.cidadeRegiaoAtendimento"
+          >
+            <span v-if="professional.pronomes">{{
+              professional.pronomes
+            }}</span>
+            <span v-if="professional.cidadeRegiaoAtendimento">{{
+              professional.cidadeRegiaoAtendimento
+            }}</span>
           </div>
         </div>
       </div>
@@ -50,7 +82,10 @@ const shortDescription = computed(() => {
           <i class="bi bi-telephone"></i>
           {{ professional.telefoneCelular }}
         </span>
-        <span v-if="professional.temWhatsapp?.trim().toLowerCase() === 'sim'" class="psi-card__info-item psi-card__info-item--whatsapp">
+        <span
+          v-if="professional.temWhatsapp?.trim().toLowerCase() === 'sim'"
+          class="psi-card__info-item psi-card__info-item--whatsapp"
+        >
           <i class="bi bi-whatsapp"></i>
           WhatsApp
         </span>
@@ -65,13 +100,16 @@ const shortDescription = computed(() => {
           :aria-expanded="isExpanded"
           @click="isExpanded = !isExpanded"
         >
-          {{ isExpanded ? 'ver menos' : 'ver mais' }}
+          {{ isExpanded ? "ver menos" : "ver mais" }}
         </button>
       </div>
     </div>
 
     <footer class="psi-card__footer">
-      <span v-if="professional.cidadeRegiaoAtendimento" class="psi-card__location">
+      <span
+        v-if="professional.cidadeRegiaoAtendimento"
+        class="psi-card__location"
+      >
         <i class="bi bi-pin-map"></i>
         {{ professional.cidadeRegiaoAtendimento }}
       </span>
@@ -85,12 +123,14 @@ const shortDescription = computed(() => {
         class="psi-card__social"
         :class="`psi-card__social--${link.rede}`"
       >
-        <i :class="link.rede === 'instagram' ? 'bi bi-instagram' : 'bi bi-globe'"></i>
+        <i
+          :class="link.rede === 'instagram' ? 'bi bi-instagram' : 'bi bi-globe'"
+        ></i>
         {{ link.nick }}
       </a>
 
       <span v-if="!redesSociais.length" class="psi-card__empty-social">
-        {{ professional.redesSociais || 'Sem rede social informada' }}
+        {{ professional.redesSociais || "Sem rede social informada" }}
       </span>
     </footer>
   </article>
@@ -103,12 +143,18 @@ const shortDescription = computed(() => {
   min-height: 420px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,255,0.96));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(248, 250, 255, 0.96)
+  );
   border: 1px solid rgba(123, 142, 169, 0.2);
   border-radius: 22px;
   box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .psi-card:hover {
@@ -181,7 +227,7 @@ const shortDescription = computed(() => {
 }
 
 .psi-card__meta span + span::before {
-  content: '•';
+  content: "•";
   margin-right: 8px;
   color: #94a3b8;
 }

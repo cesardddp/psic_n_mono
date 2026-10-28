@@ -69,17 +69,14 @@ const shortDescription = computed(() => {
         </div>
       </div>
 
-      <div class="psi-card__info">
+      <div class="psi-card__info" v-if="professional.telefoneCelular">
         <span class="psi-card__info-item">
           <i class="bi bi-telephone"></i>
           {{ professional.telefoneCelular }}
-        </span>
-        <span
-          v-if="professional.temWhatsapp?.trim().toLowerCase() === 'sim'"
-          class="psi-card__info-item psi-card__info-item--whatsapp"
-        >
-          <i class="bi bi-whatsapp"></i>
-          WhatsApp
+          <slot v-if="professional.temWhatsapp">
+            <i class="bi bi-whatsapp psi-card__info-item--whatsapp"></i>
+            <i class="bi bi-check psi-card__info-item--whatsapp"></i>
+          </slot>
         </span>
       </div>
 

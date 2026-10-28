@@ -1,16 +1,9 @@
-# Vue 3 + TypeScript + Vite
+# Visualizador da planilha pública do Google Sheets [Lista de Indicações - Psicólogues Não-Mono : Terapeutas, Psicólogues e Psicanalistas](https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vQBCl7flmc6Q4-JI6L4RhcdQZquIh-qlKr8oGF_YDKELDBlOqve3vyv2fqGBeOQVhuVBGYu1ijAUMha/pubhtml?gid=453695488&single=true)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+O projeto usa Python (Flask app) para baixar e salvar localmente (com TTL) uma cópia da tabela, normaliza e serve a uma aplicação Vue que formata os dados em cards/tabela e permite fazer buscas e filtrar por alguns parâmetros relevantes.
 
-## Recommended IDE Setup
+A finalidade é manter um projeto simples para meu portfólio e busca manter os dados exibidos fiéis à tabela original, com leves tratamentos e interações como transformar links de sites e redes sociais em botões clicáveis.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+Atualmente hospedado no servidor gerenciado por mim no link [https://terapianaomono.dpdns.org/](https://terapianaomono.dpdns.org/)
 
-## Type Support For `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
-
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
-
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+Qualquer dúvida ou problema encontrado, por favor, me envie um email para [cesardddp@hotmail.com](mailto:cesardddp@hotmail.com)

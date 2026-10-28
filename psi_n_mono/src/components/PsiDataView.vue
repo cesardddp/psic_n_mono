@@ -2,10 +2,10 @@
 import { computed } from "vue";
 import DataView from "openvue/dataview";
 import PsiCard from "./PsiCard.vue";
-import { Psi } from "../psi_model.ts";
+import type { PsiType } from "../psi_model.ts";
 
 const props = defineProps<{
-  professionals: Psi[];
+  professionals: PsiType[];
   layout: "grid" | "list";
   loading: boolean;
   error: unknown;

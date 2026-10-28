@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { useQuery } from "@pinia/colada";
-import { Psi } from "../psi_model";
+import type { PsiType } from "../psi_model";
 
 const FiltrosPsi = {
   convenio: "Sim",

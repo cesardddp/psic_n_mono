@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Psi } from "../psi_model";
+import type { PsiType } from "../psi_model";
 import { parseRedesSociais } from "../composables/parseRedesSociais";
 
-const props = defineProps<{ professional: Psi }>()
+const props = defineProps<{ professional: PsiType }>()
 const isExpanded = ref(false)
 
 const redesSociais = computed(() => parseRedesSociais(props.professional.redesSociais))

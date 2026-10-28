@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { consolePresentation } from "./composables/console_presentation";
 import { usePsiQuery } from "./composables/usePsiQuery";
 import PsiSearchToolbar from "./components/PsiSearchToolbar.vue";
-import PsiResults from "./components/PsiResults.vue";
+import PsiDataView from "./components/PsiDataView.vue";
 
 const showConsolePresentation =
   import.meta.env.VITE_CONSOLE_PRESENTATION === "true";
@@ -41,7 +41,7 @@ const {
       @search="applyFilters"
     />
 
-    <PsiResults
+    <PsiDataView
       v-model:rows="rows"
       :professionals="professionals"
       :layout="layout"

@@ -2,111 +2,158 @@ import { computed, ref } from "vue";
 import { useQuery } from "@pinia/colada";
 import type { PsiType } from "../psi_model";
 
-const FiltrosPsi = {
-  convenio: "Sim",
-  online: "Sim",
-  social: "Valor Social",
+const FILTER_VALUES = {
+  yes: "sim",
+  social: "valor social",
 } as const;
 
-const filtrosAplicadosInicial = {
-  busca: "",
+type AppliedFilters = {
+  search: string;
+  convenio: boolean;
+  online: boolean;
+  social: boolean;
+};
+
+const initialAppliedFilters: AppliedFilters = {
+  search: "",
   convenio: false,
   online: false,
   social: false,
 };
 
+// function isPsiType(value: unknown): value is PsiType {
+//   if (typeof value !== "object" || value === null || Array.isArray(value)) {
+//     return false;
+//   }
+
+//   const record = value as Record<string, unknown>;
+//   const requiredFields: (keyof PsiType)[] = [
+//     "abordagemEspecialidades",
+//     "atendeConvenio",
+//     "cidadeRegiaoAtendimento",
+//     "atendeADistancia",
+//     "nome",
+//     "possibilidadeAtendimentoSocial",
+//     "pronomes",
+//     "redesSociais",
+//     "telefoneCelular",
+//     "temWhatsapp",
+//     "col_posicao",
+//   ];
+
+//   return requiredFields.every((field) => typeof record[field] === "string");
+// }
+
+async function fetchPsis(url: string): Promise<PsiType[]> {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Resposta HTTP ${response.status}`);
+  }
+
+  const payload = await response.json() as PsiType[];
+  // se isso se mostrar necessário, fazer essa checagem no backend
+  // if (!Array.isArray(payload) || !payload.every(isPsiType)) {
+  //   throw new Error("A resposta não contém uma lista válida de profissionais");
+  // }
+
+  return payload;
+}
+
 export function usePsiQuery() {
-  const busca_ = ref("");
-  const filtroConvenio = ref(false);
-  const filtroOnline = ref(false);
-  const filtroSocial = ref(false);
-  const filtrosAplicados = ref({ ...filtrosAplicadosInicial });
+  const searchQuery = ref("");
+  const filterByConvenio = ref(false);
+  const filterOnline = ref(false);
+  const filterSocial = ref(false);
+  const appliedFilters = ref({ ...initialAppliedFilters });
 
-  const buscarPsis = async () => {
-    const mockUrl = import.meta.env.DEV
-      ? "/mock/psis.json"
-      : `${import.meta.env.BASE_URL}mock/psis.json`;
-    let resposta = await fetch(`${window.location.origin}/api/`).catch(
-      () => null,
-    );
+  const fetchProfessionals = async () => {
+    const mockUrl = `${import.meta.env.BASE_URL}mock/psis.json`;
+    let apiError: unknown;
 
-    if (!resposta?.ok) {
-      resposta = await fetch(mockUrl);
+    try {
+      return await fetchPsis("/api/");
+    } catch (error) {
+      apiError = error;
     }
 
-    if (!resposta.ok) {
-      throw new Error(`Falha ao carregar profissionais (${resposta.status})`);
+    try {
+      return await fetchPsis(mockUrl);
+    } catch (fallbackError) {
+      const apiMessage =
+        apiError instanceof Error ? apiError.message : "erro de rede";
+      const fallbackMessage =
+        fallbackError instanceof Error
+          ? fallbackError.message
+          : "erro desconhecido";
+
+      throw new Error(
+        `Falha ao carregar profissionais. API: ${apiMessage}. ` +
+          `Dados locais: ${fallbackMessage}.`,
+        { cause: fallbackError },
+      );
     }
-
-    const respostaJson: unknown = await resposta.json();
-
-    if (!Array.isArray(respostaJson)) {
-      throw new Error("A API retornou um formato inválido");
-    }
-
-    // Filtros no servidor mantidos para referência, mas desativados:
-    // const { busca, convenio, online, social } = filtrosAplicados.value;
-    // const parametros = new URLSearchParams();
-    // if (convenio) parametros.set("convenio", FiltrosPsi.convenio);
-    // if (social) parametros.set("social", FiltrosPsi.social);
-    // if (online) parametros.set("online", FiltrosPsi.online);
-    // const filtros = parametros.toString() ? `?${parametros}` : "";
-    // fetch(`/api/${encodeURIComponent(busca)}${filtros}`);
-
-    return respostaJson.map((psi) => new Psi(psi));
   };
 
   const queryPsis = useQuery({
     key: ["psis"],
-    query: buscarPsis,
+    query: fetchProfessionals,
   });
 
-  const busca = computed(() => busca_.value.trim().toLowerCase());
-  const lista_de_psis = computed<Psi[]>(() => {
-    const { convenio, online, social } = filtrosAplicados.value;
-    const listaBase = queryPsis.data.value ?? [];
-    const filtrada = listaBase.filter((psi) => {
-      const texto = Object.values(psi).join(" ").toLowerCase();
-      const correspondeBusca =
-        !filtrosAplicados.value.busca ||
-        texto.includes(filtrosAplicados.value.busca);
-      const correspondeConvenio =
-        !convenio || psi.atendeConvenio === FiltrosPsi.convenio;
-      const correspondeOnline =
-        !online || psi.atendeADistancia === FiltrosPsi.online;
-      const correspondeSocial =
-        !social || psi.possibilidadeAtendimentoSocial === FiltrosPsi.social;
+  const normalizedSearchQuery = computed(() =>
+    searchQuery.value.trim().toLocaleLowerCase(),
+  );
+  const professionals = computed<
+  PsiType[]
+  >(() => {
+    const { search, convenio, online, social } = appliedFilters.value;
+    const professionals = queryPsis.data.value ?? [];
+
+    return professionals.filter((professional) => {
+      const searchableText = Object.values(professional)
+        .join(" ")
+        .toLocaleLowerCase();
+      const matchesSearch = !search || searchableText.includes(search);
+      const matchesInsurance =
+        !convenio ||
+        professional.atendeConvenio.trim().toLocaleLowerCase() ===
+          FILTER_VALUES.yes;
+      const matchesOnline =
+        !online ||
+        professional.atendeADistancia.trim().toLocaleLowerCase() ===
+          FILTER_VALUES.yes;
+      const matchesSocial =
+        !social ||
+        professional.possibilidadeAtendimentoSocial
+          .trim()
+          .toLocaleLowerCase()
+          .includes(FILTER_VALUES.social);
 
       return (
-        correspondeBusca &&
-        correspondeConvenio &&
-        correspondeOnline &&
-        correspondeSocial
+        matchesSearch && matchesInsurance && matchesOnline && matchesSocial
       );
     });
-
-    return filtrada.slice(filtrosAplicados.value.busca ? 0 : 3);
   });
-  const carregando = computed(() => queryPsis.asyncStatus.value === "loading");
-  const erro = computed(() => queryPsis.error.value);
+  const isLoading = computed(() => queryPsis.asyncStatus.value === "loading");
+  const error = computed(() => queryPsis.error.value);
 
-  const carregarLista = () => {
-    filtrosAplicados.value = {
-      busca: busca.value,
-      convenio: filtroConvenio.value,
-      online: filtroOnline.value,
-      social: filtroSocial.value,
+  const applyFilters = () => {
+    appliedFilters.value = {
+      search: normalizedSearchQuery.value,
+      convenio: filterByConvenio.value,
+      online: filterOnline.value,
+      social: filterSocial.value,
     };
   };
 
   return {
-    busca_,
-    filtroConvenio,
-    filtroOnline,
-    filtroSocial,
-    lista_de_psis,
-    carregando,
-    erro,
-    carregarLista,
+    searchQuery,
+    filterByInsurance: filterByConvenio,
+    filterOnline,
+    filterSocial,
+    professionals,
+    isLoading,
+    error,
+    applyFilters,
   };
 }

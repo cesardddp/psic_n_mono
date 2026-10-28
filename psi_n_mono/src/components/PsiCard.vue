@@ -268,13 +268,13 @@ const shortDescription = computed(() => {
   flex-direction: column;
   gap: 12px;
   padding: 12px 18px 18px;
-  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  border-top: 1px solid rgba(17, 81, 172, 0.2);
   background: rgba(241, 245, 249, 0.8);
 }
 
 .psi-card__location {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   color: #475569;
   font-size: 0.82rem;

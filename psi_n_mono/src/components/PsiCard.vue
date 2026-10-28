@@ -63,16 +63,8 @@ const shortDescription = computed(() => {
       <div class="psi-card__title-row">
         <div>
           <h3 class="psi-card__title">{{ professional.nome }}</h3>
-          <div
-            class="psi-card__meta"
-            v-if="professional.pronomes || professional.cidadeRegiaoAtendimento"
-          >
-            <span v-if="professional.pronomes">{{
-              professional.pronomes
-            }}</span>
-            <span v-if="professional.cidadeRegiaoAtendimento">{{
-              professional.cidadeRegiaoAtendimento
-            }}</span>
+          <div class="psi-card__meta" v-if="professional.pronomes">
+            <span>Pronomes: {{ professional.pronomes }}</span>
           </div>
         </div>
       </div>

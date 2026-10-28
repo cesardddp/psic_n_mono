@@ -19,11 +19,11 @@ const emit = defineEmits<{
   <form class="toolbar panel" @submit.prevent="emit('search')">
     <div class="search-wrap">
       <input
-        v-model="search"
-        class="search-input"
         type="text"
-        placeholder="Buscar profissional..."
+        class="search-input"
         aria-label="Buscar profissional"
+        placeholder="Buscar profissional..."
+        v-model="search"
       />
       <button
         v-if="search"
@@ -55,26 +55,27 @@ const emit = defineEmits<{
       </label>
     </fieldset>
 
-    <div class="layout-controls" aria-label="Modo de exibição">
-      <button
-        v-for="option in layoutOptions"
-        :key="option.value"
-        type="button"
-        class="layout-btn"
-        :class="{ active: layout === option.value }"
-        :aria-pressed="layout === option.value"
-        @click="layout = option.value"
-      >
-        <i :class="option.icon"></i>
-        {{ option.label }}
-      </button>
-    </div>
+    
 
     <button type="submit" class="search-btn">
-      <i class="bi bi-funnel"></i>
+      <i class="bi bi-search"></i>
       Buscar
     </button>
   </form>
+  <div class="layout-controls" aria-label="Modo de exibição">
+    <button
+      v-for="option in layoutOptions"
+      :key="option.value"
+      type="button"
+      class="layout-btn"
+      :class="{ active: layout === option.value }"
+      :aria-pressed="layout === option.value"
+      @click="layout = option.value"
+    >
+      <i :class="option.icon"></i>
+      {{ option.label }}
+    </button>
+  </div>
 </template>
 
 <style scoped>
@@ -87,7 +88,7 @@ const emit = defineEmits<{
 
 .toolbar {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr) auto;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
   gap: 18px;
   align-items: center;
   padding: 18px 20px;
@@ -99,6 +100,7 @@ const emit = defineEmits<{
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
+  margin-bottom: 1em;
 }
 
 .layout-btn {
@@ -123,6 +125,7 @@ const emit = defineEmits<{
   position: relative;
   display: flex;
   align-items: center;
+  grid-column: 1 / -1;
 }
 
 .search-input {
@@ -161,11 +164,12 @@ const emit = defineEmits<{
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
-  justify-content: center;
+  text-align: start;
   min-width: 0;
-  margin: 0;
-  padding: 0 8px;
-  border: 0;
+  margin:  0;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 0 1em .5em;
+
 }
 
 .filters-title {
@@ -174,6 +178,7 @@ const emit = defineEmits<{
   font-weight: 700;
   color: #334155;
   font-size: 0.95rem;
+  text-align: center;
 }
 
 .switch-field {

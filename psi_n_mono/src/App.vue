@@ -64,9 +64,9 @@ const {
       </cite>.
     </p>
     <p>
-      Mantido por
+      Visualizador mantido por
       <a href="mailto:cesardddp@hotmail.com">cesardddp</a> como um projeto
-      pessoal de utilidade pública.
+      pessoal.
     </p>
   </footer>
 </template>

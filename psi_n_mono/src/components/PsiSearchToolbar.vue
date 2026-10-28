@@ -51,7 +51,7 @@ const emit = defineEmits<{
 
       <label class="switch-field">
         <input v-model="social" type="checkbox" />
-        <span>Valor social</span>
+        <span>Possibilidade de atendimento social</span>
       </label>
     </fieldset>
 

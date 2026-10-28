@@ -30,7 +30,7 @@ const shortDescription = computed(() => {
         Online: {{ professional.atendeADistancia }}
       </span>
       <span v-if="professional.possibilidadeAtendimentoSocial" class="psi-card__badge" :class="showBadgeValorSocial ? 'is-success' : 'is-neutral'">
-        {{ professional.possibilidadeAtendimentoSocial }}
+        Vl. Social: {{ professional.possibilidadeAtendimentoSocial }}
       </span>
     </header>
 

@@ -8,18 +8,23 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "test:social": "node --experimental-strip-types tests/parseRedesSociais.test.ts",
-    "test:social:full": "node --experimental-strip-types tests/fullCsvSocialTest.ts"
+    "test:social:full": "node --experimental-strip-types tests/fullCsvSocialTest.ts",
+    "prepare": "skills-npm"
   },
   "dependencies": {
+    "@kalimahapps/vue-icons": "^1.9.7",
     "@openvue/themes": "^1.0.0",
     "@pinia/colada": "^1.4.4",
+    "bootstrap-icons": "^1.13.2",
     "openvue": "^1.0.0",
     "vue": "^3.5.42"
   },
   "devDependencies": {
+    "@antfu/skills": "^0.1.0",
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.9.1",
+    "skills-npm": "^4.0.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vue-tsc": "^3.3.11"

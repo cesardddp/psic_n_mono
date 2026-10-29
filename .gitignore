@@ -32,3 +32,6 @@ psi_n_mono_back/psi_n_mono_back/static/
 psi_n_mono_back/psi_n_mono_back/cache.sqlite3
 psi_n_mono_back/tests/__pycache__/
 psi_n_mono/public/mock/psis.json
+psi_n_mono/.agents/
+psi_n_mono/.vite/deps_temp_de70c720/package.json
+psi_n_mono/.env

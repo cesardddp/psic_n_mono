@@ -19,6 +19,7 @@ const {
   filterByInsurance,
   filterOnline,
   filterSocial,
+  sourceNotice,
   professionals,
   isLoading,
   error,
@@ -41,6 +42,16 @@ const {
       v-model:layout="layout"
       @search="applyFilters"
     />
+
+    <aside
+      v-if="sourceNotice"
+      class="source-notice"
+      role="note"
+      aria-label="Aviso da planilha"
+    >
+      <i class="bi bi-info-circle" aria-hidden="true"></i>
+      <p>{{ sourceNotice }}</p>
+    </aside>
 
     <PsiDataView
       v-model:rows="rows"
@@ -83,6 +94,24 @@ const {
   max-width: 1280px;
   margin: 0 auto;
   padding: 32px 16px 56px;
+}
+
+.source-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  color: #9a3412;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.source-notice i {
+  flex: 0 0 auto;
+  margin-top: 3px;
 }
 
 .source-footer {

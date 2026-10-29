@@ -103,13 +103,23 @@ export function usePsiQuery() {
   const normalizedSearchQuery = computed(() =>
     searchQuery.value.trim().toLocaleLowerCase(),
   );
-  const professionals = computed<
-  PsiType[]
-  >(() => {
+  const sourceNotice = computed(
+    () =>
+      queryPsis.data.value
+        ?.find((professional) =>
+          professional.nome.trim().toLocaleUpperCase().startsWith("ÚLTIMA ATUALIZAÇÃO:"),
+        )
+        ?.nome.trim() ?? "",
+  );
+  const professionals = computed<PsiType[]>(() => {
     const { search, convenio, online, social } = appliedFilters.value;
     const professionals = queryPsis.data.value ?? [];
 
     return professionals.filter((professional) => {
+      if (professional.nome.trim().toLocaleUpperCase().startsWith("ÚLTIMA ATUALIZAÇÃO:")) {
+        return false;
+      }
+
       const searchableText = Object.values(professional)
         .join(" ")
         .toLocaleLowerCase();
@@ -151,6 +161,7 @@ export function usePsiQuery() {
     filterByInsurance: filterByConvenio,
     filterOnline,
     filterSocial,
+    sourceNotice,
     professionals,
     isLoading,
     error,

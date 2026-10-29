@@ -3,8 +3,7 @@ FROM oven/bun:1-alpine AS frontend
 WORKDIR /app/psi_n_mono
 
 COPY psi_n_mono/package.json psi_n_mono/bun.lock ./
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun install --frozen-lockfile
+RUN bun install --frozen-lockfile --ignore-scripts
 
 COPY psi_n_mono/ ./
 RUN bun run build

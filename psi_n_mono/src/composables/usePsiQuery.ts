@@ -68,29 +68,29 @@ export function usePsiQuery() {
   const appliedFilters = ref({ ...initialAppliedFilters });
 
   const fetchProfessionals = async () => {
-    const mockUrl = `${import.meta.env.BASE_URL}mock/psis.json`;
+    // const mockUrl = `${import.meta.env.BASE_URL}mock/psis.json`;
     let apiError: unknown;
 
     try {
-      return await fetchPsis("/api/");
+      return await fetchPsis(import.meta.env.VITE_API_URL);
     } catch (error) {
       apiError = error;
-    }
+    // }
 
-    try {
-      return await fetchPsis(mockUrl);
-    } catch (fallbackError) {
+    // try {
+    //   return await fetchPsis(mockUrl);
+    // } catch (fallbackError) {
       const apiMessage =
         apiError instanceof Error ? apiError.message : "erro de rede";
       const fallbackMessage =
-        fallbackError instanceof Error
-          ? fallbackError.message
+        error instanceof Error
+          ? error.message
           : "erro desconhecido";
 
       throw new Error(
         `Falha ao carregar profissionais. API: ${apiMessage}. ` +
           `Dados locais: ${fallbackMessage}.`,
-        { cause: fallbackError },
+        { cause: error },
       );
     }
   };
